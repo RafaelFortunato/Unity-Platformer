@@ -1,35 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+public class ChasePlayerStateModel
+{
+    public Transform playerTransform;
+}
 
 public class ChasePlayerState : IState
 {
-    private SkeletonAI skeletonAI;
+    private BaseAI baseAI;
+    private ChasePlayerStateModel model;
 
-    public ChasePlayerState(SkeletonAI skeletonAI)
+    public ChasePlayerState(BaseAI baseAI, ChasePlayerStateModel model)
     {
-        this.skeletonAI = skeletonAI;
+        this.baseAI = baseAI;
+        this.model = model;
     }
 
     public void Update()
     {
-        if (skeletonAI.HasDelay())
-        {
-            return;
-        }
+        int directionX = model.playerTransform.position.x > baseAI.transform.position.x ? 1 : -1;
+        baseAI.transform.rotation = new Quaternion(0, directionX < 0 ? 180 : 0, 0, 0);
 
-        int directionX = skeletonAI.playerTransform.position.x > skeletonAI.transform.position.x ? 1 : -1;
-        if (directionX < 0)
-        {
-            skeletonAI.transform.rotation = new Quaternion(0, 180, 0, 0);
-        }
-        else
-        {
-            skeletonAI.transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
-        var movePos = skeletonAI.transform.position + Vector3.right * (directionX * skeletonAI.walkSpeed * Time.deltaTime);
+        var movePos = baseAI.transform.position + Vector3.right * (directionX * baseAI.walkSpeed * Time.deltaTime);
         // skeletonAI.rigidbody.MovePosition(movePos);
-        skeletonAI.transform.position = movePos;
+        baseAI.transform.position = movePos;
     }
 
     public void OnEnter()

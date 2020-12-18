@@ -18,8 +18,8 @@ public class Health : MonoBehaviour
 
     public event Action<int> OnHealthChanged;
 
-    public float invencibilityTime;
-    [HideInInspector] public float invencibilityCooldown;
+    public float invincibilityTime;
+    [HideInInspector] public float invincibilityCooldown;
 
     private void Start()
     {
@@ -28,6 +28,6 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        invencibilityCooldown -= Time.deltaTime;
+        invincibilityCooldown -= Time.deltaTime;
     }
 }

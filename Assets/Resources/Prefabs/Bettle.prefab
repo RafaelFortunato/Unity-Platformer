@@ -197,6 +197,7 @@ Transform:
   - {fileID: 6315373325237124261}
   - {fileID: 6315373325815726623}
   - {fileID: 1350712564}
+  - {fileID: 1132039505662763515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -273,9 +274,13 @@ MonoBehaviour:
   walkSpeed: 3
   groundAheadCheck: {fileID: 6315373325815726623}
   groundBelowCheck: {fileID: 1350712564}
+  obstacleAheadCheck: {fileID: 1132039505662763515}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 823
   animator: {fileID: 0}
   rigidbody: {fileID: 0}
   playerTransform: {fileID: 0}
@@ -408,6 +413,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6315373324790699746}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6749378580315961281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1132039505662763515}
+  m_Layer: 0
+  m_Name: ObstacleAheadCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1132039505662763515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6749378580315961281}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.3, y: -0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6315373324790699746}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6315373324815232038
 PrefabInstance:

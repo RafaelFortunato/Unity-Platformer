@@ -5,54 +5,51 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Sword Attack")]
-    public int swordAttackDamage;
+    [Header("Sword Attack")] public int swordAttackDamage;
     public float SwordAttackRange;
     public float SwordAttackDelay;
     public Transform SwordAttackPosition;
 
-    [Header("Fire Ball")]
-    public GameObject fireballPrefab;
+    [Header("Fire Ball")] public GameObject fireballPrefab;
     public float MagicAttackDelay;
 
-    [Header("Jump")]
-    public float JumpHeight;
+    [Header("Jump")] public float JumpHeight;
     public float gravityScale;
     public float jumpPressTime;
 
-    [Header("Other")]
-    public float WalkSpeed;
+    [Header("Other")] public float WalkSpeed;
     public Animator anim;
     public LayerMask EnemyLayers;
-    public LayerMask GroundLayer;  // A mask determining what is ground to the character
+    public LayerMask GroundLayer; // A mask determining what is ground to the character
+    public GameObject gameOverPanel;
 
     private Rigidbody rigidbody;
-    private bool isJumping = false;
-    private float jumpTimeCounter = 0;
-    private float ControlDelay = 0f;
+    private bool isJumping;
+    private float jumpTimeCounter;
+    private float controlDelay;
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private Transform GroundCheck;    // A position marking where to check if the player is grounded.
+    Transform groundBelowCheck;
+    const float groundCheckRadius = .2f;
 
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        GroundCheck = transform.Find("GroundCheck");
+        groundBelowCheck = transform.Find("GroundCheck");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        ControlDelay -= Time.deltaTime;
-
         if (!CanMove())
         {
+            controlDelay -= Time.deltaTime;
+
             anim.SetBool("Jumping", !IsGrounded());
 
             if (!IsGrounded())
             {
                 InputMovement();
             }
+
             return;
         }
 
@@ -66,7 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            ControlDelay = MagicAttackDelay;
+            controlDelay = MagicAttackDelay;
             anim.SetTrigger("Magic");
         }
     }
@@ -78,20 +75,12 @@ public class PlayerController : MonoBehaviour
 
     private bool CanMove()
     {
-        return ControlDelay <= 0;
+        return controlDelay <= 0;
     }
 
     private void InputMovement()
     {
         float x = Input.GetAxis("Horizontal");
-
-        // Debug.Log(x);
-        //
-        // Vector3 parentPos = Vector3.zero;
-        // if (transform.parent != null)
-        // {
-        //     parentPos = transform.parent.GetComponent<Transform>().position;
-        // }
 
         if (transform.parent == null)
         {
@@ -99,22 +88,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // Move position doesnt work when the gameobject is child of another rigidbody
+            // https://forum.unity.com/threads/child-rigidbody-doesnt-act-normally-when-parent-rigidbody-moves.564991/
             transform.position += new Vector3(x * WalkSpeed * Time.deltaTime, 0, 0);
         }
 
-
-        if (x < 0)
-        {
-            transform.rotation = new Quaternion(0, 180, 0, 0);
-        }
-        else if (x > 0)
-        {
-            transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
+        transform.rotation = new Quaternion(0, x < 0 ? 180 : 0, 0, 0);
 
         anim.SetFloat("Speed", Math.Abs(x));
     }
-
 
     void InputJump()
     {
@@ -150,7 +132,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            ControlDelay = SwordAttackDelay;
+            controlDelay = SwordAttackDelay;
             anim.SetTrigger("Attack");
         }
     }
@@ -167,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        Collider[] colliders = Physics.OverlapSphere(GroundCheck.position, k_GroundedRadius, GroundLayer);
+        Collider[] colliders = Physics.OverlapSphere(groundBelowCheck.position, groundCheckRadius, GroundLayer);
         foreach (var c in colliders)
         {
             if (c.gameObject != gameObject)
@@ -175,17 +157,6 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (GroundCheck == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(GroundCheck.position, k_GroundedRadius);
-
-        Handles.DrawWireDisc(SwordAttackPosition.position, Vector3.forward, SwordAttackRange);
     }
 
     private void FixedUpdate()
@@ -198,4 +169,33 @@ public class PlayerController : MonoBehaviour
         Vector3 gravity = Vector3.up * (Physics.gravity.y * gravityScale);
         rigidbody.AddForce(gravity, ForceMode.Acceleration);
     }
+
+    public void Death()
+    {
+        controlDelay = 4f;
+        anim.SetTrigger("Dead");
+
+
+        Invoke("ShowGameOverPanel", 3);
+    }
+
+    private void ShowGameOverPanel()
+    {
+        gameOverPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if (groundBelowCheck == null)
+            return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundBelowCheck.position, groundCheckRadius);
+
+        Handles.DrawWireDisc(SwordAttackPosition.position, Vector3.forward, SwordAttackRange);
+    }
+#endif
+
 }

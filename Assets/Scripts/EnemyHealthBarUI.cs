@@ -27,6 +27,11 @@ public class EnemyHealthBarUI : MonoBehaviour
     {
         health = Math.Max(0, health);
 
+        for (; currentHealth < health; currentHealth++)
+        {
+            lifeBars[currentHealth].color = Color.red;
+        }
+
         for (; currentHealth > health; currentHealth--)
         {
             lifeBars[currentHealth - 1].color = new Color(0.2f, 0.2f, 0.2f);
