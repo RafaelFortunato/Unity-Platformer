@@ -19133,7 +19133,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5336671723683692470}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 46.24, y: 4.36, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -19145,7 +19145,7 @@ Transform:
   - {fileID: 3532475093748397637}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &5244687459613835650
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -22876,7 +22876,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 1
+    enabled: 0
     ratio: 1
     light: {fileID: 0}
     randomDistribution: 0
