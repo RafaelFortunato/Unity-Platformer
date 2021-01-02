@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 2422420449812251421}
   - component: {fileID: 2422420449812251408}
   - component: {fileID: 2422420449812251409}
+  - component: {fileID: 2658539792504847394}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Enemy
@@ -123,6 +124,8 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 823
+  destructionParticles: {fileID: 2714337323935993973, guid: 227c13fd26180a342838e88967a356db,
+    type: 3}
   animator: {fileID: 2422420449812251409}
   rigidbody: {fileID: 2422420449812251410}
   controlDelay: 0
@@ -178,8 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 10
-  invencibilityTime: 0
-  invencibilityCooldown: 0
+  invincibilityTime: 0
+  invincibilityCooldown: 0
 --- !u!95 &2422420449812251409
 Animator:
   serializedVersion: 3
@@ -199,6 +202,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2658539792504847394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2422420449812251423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6019311837c7d74fa7f1ddb37b25b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseAI: {fileID: 2422420449812251411}
+  healthComponent: {fileID: 2422420449812251408}
+  damage: 1
 --- !u!1 &2422420450139458279
 GameObject:
   m_ObjectHideFlags: 0

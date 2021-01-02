@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HeartItem : MonoBehaviour
@@ -9,7 +7,7 @@ public class HeartItem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag(Tags.PLAYER))
         {
             var healthComponent = other.gameObject.GetComponent<Health>();
             if (healthComponent == null)
@@ -19,5 +17,10 @@ public class HeartItem : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    public void Update()
+    {
+        transform.position += Vector3.up * (Mathf.Cos(Time.time) * 0.003f);
     }
 }

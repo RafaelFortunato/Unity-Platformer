@@ -10,12 +10,12 @@ public class AttackStateModel
     public UnityEvent onAttackStrike;
 }
 
-public class AttackState : IState
+public class BaseAttackState : IState
 {
     private BaseAI baseAI;
     private AttackStateModel model;
 
-    public AttackState(BaseAI baseAI, AttackStateModel model)
+    public BaseAttackState(BaseAI baseAI, AttackStateModel model)
     {
         this.baseAI = baseAI;
         this.model = model;

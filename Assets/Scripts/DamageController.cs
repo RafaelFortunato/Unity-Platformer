@@ -5,7 +5,7 @@ public class DamageController
 {
     public static void ApplyDamage(GameObject gameObject, int damage)
     {
-        var healthComponent = gameObject.GetComponent<Health>();
+        var healthComponent = gameObject.GetComponentInParent<Health>();
         if (healthComponent == null || healthComponent.invincibilityCooldown > 0 || healthComponent.CurrentHealth <= 0)
         {
             return;
@@ -17,6 +17,16 @@ public class DamageController
 
         HandleEntityDeath(gameObject, healthComponent);
     }
+
+    // private static Health GetHealthComponentFromCollider(GameObject gameObject)
+    // {
+    //     if (!gameObject.TryGetComponent(out Health healthComponent))
+    //     {
+    //         healthComponent = gameObject.GetComponentInParent<Health>();
+    //     }
+    //
+    //     return healthComponent;
+    // }
 
     private static void ApplyInvincibilityTime(GameObject gameObject, Health healthComponent)
     {
@@ -40,11 +50,12 @@ public class DamageController
             return;
         }
 
-        if (gameObject.CompareTag("Enemy"))
+        if (gameObject.CompareTag(Tags.ENEMY))
         {
-            GameObject.Destroy(gameObject);
+            CollisionEventHandler enemyObject = gameObject.GetComponent<CollisionEventHandler>();
+            enemyObject.baseAI.DeathAnimation();
         }
-        else if (gameObject.CompareTag("Player"))
+        else if (gameObject.CompareTag(Tags.PLAYER))
         {
             PlayerController playerController = gameObject.GetComponent<PlayerController>();
             playerController.Death();

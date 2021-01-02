@@ -5,23 +5,26 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Sword Attack")] public int swordAttackDamage;
+    [Header("Sword Attack")]
+    public int swordAttackDamage;
     public float SwordAttackRange;
     public float SwordAttackDelay;
     public Transform SwordAttackPosition;
 
-    [Header("Fire Ball")] public GameObject fireballPrefab;
+    [Header("Fire Ball")]
     public float MagicAttackDelay;
 
-    [Header("Jump")] public float JumpHeight;
+    [Header("Jump")]
+    public float JumpHeight;
     public float gravityScale;
     public float jumpPressTime;
 
-    [Header("Other")] public float WalkSpeed;
+    [Header("Other")]
+    public float WalkSpeed;
     public Animator anim;
     public LayerMask EnemyLayers;
-    public LayerMask GroundLayer; // A mask determining what is ground to the character
-    public GameObject gameOverPanel;
+    public LayerMask GroundLayer;
+    public GameUI gameUI;
 
     private Rigidbody rigidbody;
     private bool isJumping;
@@ -70,7 +73,17 @@ public class PlayerController : MonoBehaviour
 
     public void FireballAction()
     {
-        Instantiate(fireballPrefab, SwordAttackPosition.position, SwordAttackPosition.rotation);
+        var fireballModel = new FireballModel
+        {
+            ownerTag = Tags.PLAYER,
+            hitTag = Tags.ENEMY,
+            originPosition = SwordAttackPosition.position,
+            direction = transform.right,
+            damage = 1,
+            speed = 500f
+        };
+
+        FireballController.CreateFireball(fireballModel);
     }
 
     private bool CanMove()
@@ -93,7 +106,10 @@ public class PlayerController : MonoBehaviour
             transform.position += new Vector3(x * WalkSpeed * Time.deltaTime, 0, 0);
         }
 
-        transform.rotation = new Quaternion(0, x < 0 ? 180 : 0, 0, 0);
+        if (x != 0)
+        {
+            transform.rotation = new Quaternion(0, x < 0 ? 180 : 0, 0, 0);
+        }
 
         anim.SetFloat("Speed", Math.Abs(x));
     }
@@ -175,14 +191,18 @@ public class PlayerController : MonoBehaviour
         controlDelay = 4f;
         anim.SetTrigger("Dead");
 
-
         Invoke("ShowGameOverPanel", 3);
     }
 
     private void ShowGameOverPanel()
     {
-        gameOverPanel.SetActive(true);
-        Time.timeScale = 0;
+        gameUI.ShowGameOverPanel();
+    }
+
+    public void PausePlayer(float duration)
+    {
+        controlDelay = duration;
+        anim.SetFloat("Speed", 0);
     }
 
 #if UNITY_EDITOR

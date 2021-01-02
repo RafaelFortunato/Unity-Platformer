@@ -12,7 +12,9 @@ public class BaseAI : MonoBehaviour
     public Transform obstacleAheadCheck;
     public LayerMask obstacleLayer;
 
-    [HideInInspector] public Animator animator;
+    public GameObject destructionParticles;
+
+    public Animator animator;
     [HideInInspector] public Rigidbody rigidbody;
     [HideInInspector] public float controlDelay;
 
@@ -20,11 +22,6 @@ public class BaseAI : MonoBehaviour
 
     protected void Start()
     {
-        if (!TryGetComponent(out animator))
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
-
         rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -40,4 +37,18 @@ public class BaseAI : MonoBehaviour
     }
 
     public bool HasDelay() => controlDelay > 0;
+
+    public virtual void DeathAnimation()
+    {
+        controlDelay = 3;
+        animator.SetTrigger("Dead");
+        Invoke("DestroyAnimation", 1);
+    }
+
+    public void DestroyAnimation()
+    {
+        Destroy(gameObject);
+        Instantiate(destructionParticles, transform.position, Quaternion.identity);
+        destructionParticles.transform.position = transform.position;
+    }
 }

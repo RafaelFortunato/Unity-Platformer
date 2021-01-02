@@ -1,6 +1,6 @@
 ﻿public class BettleAI : BaseAI
 {
-    void Start()
+    new void Start()
     {
         base.Start();
 

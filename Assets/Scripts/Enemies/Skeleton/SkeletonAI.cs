@@ -15,7 +15,7 @@ public class SkeletonAI : BaseAI
     [HideInInspector] public Transform playerTransform;
     public UnityEvent onAttackStrike;
 
-    void Start()
+    new void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -36,7 +36,7 @@ public class SkeletonAI : BaseAI
             onAttackStrike = onAttackStrike
         };
 
-        var attackState = new AttackState(this, attackStateModel);
+        var attackState = new BaseAttackState(this, attackStateModel);
 
         stateMachine.AddTransition(patrolState, chasePlayerState, PlayerInAggroRange);
         stateMachine.AddAnyTransition(attackState, PlayerInAttackRange);

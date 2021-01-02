@@ -20,12 +20,25 @@ public class WorldCharacter : MonoBehaviour
 
     public IEnumerator DamageTakenCoroutine(float duration)
     {
-        foreach (var mesh in meshRenderers)
+        float startTime = Time.time;
+        while (Time.time - startTime < duration)
         {
-            mesh.SetPropertyBlock(materialPropertyBlock);
-        }
+            foreach (var mesh in meshRenderers)
+            {
+                mesh.SetPropertyBlock(materialPropertyBlock);
+            }
 
-        yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(0.1f);
+
+            foreach (var mesh in meshRenderers)
+            {
+                mesh.SetPropertyBlock(null);
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+            duration -= Time.deltaTime;
+        }
 
         foreach (var mesh in meshRenderers)
         {

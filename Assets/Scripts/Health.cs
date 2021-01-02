@@ -16,6 +16,8 @@ public class Health : MonoBehaviour
         }
     }
 
+    public bool IsAlive => currentHealth > 0;
+
     public event Action<int> OnHealthChanged;
 
     public float invincibilityTime;
@@ -28,6 +30,9 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        invincibilityCooldown -= Time.deltaTime;
+        if (invincibilityCooldown > 0)
+        {
+            invincibilityCooldown -= Time.deltaTime;
+        }
     }
 }

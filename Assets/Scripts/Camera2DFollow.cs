@@ -45,12 +45,6 @@ namespace UnityStandardAssets._2D
             {
                 newPos.y = target.position.y - 6;
             }
-            else if (target.position.y - transform.position.y > 0)
-            {
-                // newPos.y = transform.position.y;
-            }
-
-            // newPos.y = Math.Abs(target.position.y - transform.position.y) > 6 ? newPos.y : transform.position.y;
 
             transform.position = newPos;
             m_LastTargetPosition = target.position;
