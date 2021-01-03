@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
     public FireballModel model;
+    [HideInInspector] public Vector3 direction;
+    private const float speed = 20f;
 
     private const float lifetime = 6f;
 
@@ -11,12 +14,18 @@ public class Fireball : MonoBehaviour
         Invoke("Destroy", lifetime);
     }
 
-    private void OnCollisionEnter(Collision other)
+    void Update()
     {
+        transform.position += direction * (Time.deltaTime * speed);
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("OnCollisionEnter: " + other.gameObject.tag);
         FireballController.FireballCollision(this, other);
     }
 
-    private void Destroy()
+    void Destroy()
     {
         Destroy(gameObject);
     }

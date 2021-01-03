@@ -23,10 +23,8 @@ public static class FireballController
         }
 
         var fireballObject = Object.Instantiate(fireballPrefab, model.originPosition, Quaternion.LookRotation(model.direction, Vector3.up));
-        var rigidbody = fireballObject.GetComponent<Rigidbody>();
-        rigidbody.AddForce(model.direction * model.speed);
-
         var fireballCollision = fireballObject.GetComponent<Fireball>();
+        fireballCollision.direction = model.direction;
         fireballCollision.model = model;
     }
 

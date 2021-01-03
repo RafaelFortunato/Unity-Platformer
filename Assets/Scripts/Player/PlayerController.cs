@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
             originPosition = SwordAttackPosition.position,
             direction = transform.right,
             damage = 1,
-            speed = 500f
+            speed = 1000f
         };
 
         FireballController.CreateFireball(fireballModel);

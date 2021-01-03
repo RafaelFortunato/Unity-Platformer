@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1557165512297832808}
   - component: {fileID: 1557165512297832809}
   - component: {fileID: 458423157715208944}
-  - component: {fileID: 4973170682320487333}
+  - component: {fileID: 3092987395682944453}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -109,7 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6dc9ca395a5e3b4f9be79dc3ced78d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &4973170682320487333
+  direction: {x: 0, y: 0, z: 0}
+--- !u!54 &3092987395682944453
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +124,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!1 &7155374619089670263
 GameObject:
@@ -168,8 +169,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.6236605, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 3
+  m_Intensity: 3
+  m_Range: 4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

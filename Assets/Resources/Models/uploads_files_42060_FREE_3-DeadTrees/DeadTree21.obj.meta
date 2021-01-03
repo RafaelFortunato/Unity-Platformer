@@ -3,7 +3,12 @@ guid: c93f048da9867ff4aa482a224a197f66
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DeadTrees_DarkTrunk
+    second: {fileID: 2100000, guid: 1fa9619a04a97a24d9e0cf19c77beae0, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
