@@ -71,7 +71,6 @@ public class BasePatrolState : IState
     {
         var movePos = baseAI.transform.position + Vector3.right * (directionX * baseAI.walkSpeed * Time.deltaTime);
         baseAI.transform.position = movePos;
-        // bettleAI.rigidbody.MovePosition(movePos);
     }
 
     private void TurnAround()

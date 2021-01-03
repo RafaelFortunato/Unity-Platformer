@@ -18,7 +18,6 @@ public class GameUI : MonoBehaviour
         Time.timeScale = 0;
     }
 
-
     public void ShowVictoryPanel()
     {
         victoryPanel.SetActive(true);

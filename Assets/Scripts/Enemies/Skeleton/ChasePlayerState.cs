@@ -22,7 +22,6 @@ public class ChasePlayerState : IState
         baseAI.transform.rotation = new Quaternion(0, directionX < 0 ? 180 : 0, 0, 0);
 
         var movePos = baseAI.transform.position + Vector3.right * (directionX * baseAI.walkSpeed * Time.deltaTime);
-        // skeletonAI.rigidbody.MovePosition(movePos);
         baseAI.transform.position = movePos;
     }
 

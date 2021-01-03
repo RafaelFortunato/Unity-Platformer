@@ -18,16 +18,6 @@ public class DamageController
         HandleEntityDeath(gameObject, healthComponent);
     }
 
-    // private static Health GetHealthComponentFromCollider(GameObject gameObject)
-    // {
-    //     if (!gameObject.TryGetComponent(out Health healthComponent))
-    //     {
-    //         healthComponent = gameObject.GetComponentInParent<Health>();
-    //     }
-    //
-    //     return healthComponent;
-    // }
-
     private static void ApplyInvincibilityTime(GameObject gameObject, Health healthComponent)
     {
         if (healthComponent.invincibilityTime <= 0)

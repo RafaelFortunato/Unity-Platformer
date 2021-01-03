@@ -31,7 +31,6 @@ public class DragonAI: BaseAI
         };
 
         flyState = new DragonFlyState(this, flyStateModel);
-        // stateMachine.SetState(flyState);
 
         var landStateModel = new DragonLandStateModel();
         landState = new DragonLandState(this, landStateModel);

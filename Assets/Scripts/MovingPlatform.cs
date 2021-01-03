@@ -28,7 +28,6 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnValidate()
     {
-        // rigidbody.MovePosition(Vector3.Lerp(initialPosition, targetPosition, delta));
         transform.position = Vector3.Lerp(initialPosition, targetPosition, delta);
     }
 

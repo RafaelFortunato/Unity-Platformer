@@ -24,7 +24,6 @@ public class DragonFlyState : IState
     private DragonAI baseAI;
     private DragonFlyStateModel model;
 
-    private const string animationId = "Flying";
     private const float flyTranslateDuration = 3;
     private const float horizontalGlideDuration = 3;
 
