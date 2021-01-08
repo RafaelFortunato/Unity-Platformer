@@ -6,11 +6,15 @@ using UnityEngine.Events;
 
 public class SkeletonAI : BaseAI
 {
+    [Header("Sword Attack")]
     public float aggroRange;
     public float attackRange;
     public float attackDelay;
     public int attackDamage;
     public Transform swordAttackPosition;
+
+    [Header("Sounds")]
+    public AudioSource attackSound;
 
     [HideInInspector] public Transform playerTransform;
     public UnityEvent onAttackStrike;
@@ -33,7 +37,8 @@ public class SkeletonAI : BaseAI
             range = attackRange,
             delay = attackDelay,
             damage = attackDamage,
-            onAttackStrike = onAttackStrike
+            onAttackStrike = onAttackStrike,
+            attackSound = attackSound
         };
 
         var attackState = new BaseAttackState(this, attackStateModel);

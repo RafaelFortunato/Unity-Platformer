@@ -18,6 +18,8 @@ public class BaseAI : MonoBehaviour
     [HideInInspector] public Rigidbody rigidbody;
     [HideInInspector] public float controlDelay;
 
+    public AudioController audioController;
+
     protected StateMachine stateMachine = new StateMachine();
 
     protected void Start()
@@ -47,8 +49,9 @@ public class BaseAI : MonoBehaviour
 
     public void DestroyAnimation()
     {
-        Destroy(gameObject);
+        audioController.PlayEnemyExplosion();
         Instantiate(destructionParticles, transform.position, Quaternion.identity);
         destructionParticles.transform.position = transform.position;
+        Destroy(gameObject);
     }
 }

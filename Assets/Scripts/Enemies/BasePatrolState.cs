@@ -19,8 +19,6 @@ public class BasePatrolState : IState
             return;
         }
 
-        baseAI.animator.SetBool("Walking", true);
-
         if (HasGroundAhead() && !HasObstacleAhead())
         {
             MoveFoward();
@@ -82,6 +80,7 @@ public class BasePatrolState : IState
     public void OnEnter()
     {
         baseAI.transform.rotation = new Quaternion(0, directionX < 0 ? 180 : 0, 0, 0);
+        baseAI.animator.SetBool("Walking", true);
     }
 
     public void OnExit()

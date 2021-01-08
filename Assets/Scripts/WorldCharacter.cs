@@ -5,6 +5,7 @@ public class WorldCharacter : MonoBehaviour
 {
     private SkinnedMeshRenderer[] meshRenderers;
     private MaterialPropertyBlock materialPropertyBlock;
+    public AudioSource damageTakenSound;
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class WorldCharacter : MonoBehaviour
     public void DamageTakenAnimation(float duration)
     {
         StartCoroutine(DamageTakenCoroutine(duration));
+        damageTakenSound.Play();
     }
 
     public IEnumerator DamageTakenCoroutine(float duration)

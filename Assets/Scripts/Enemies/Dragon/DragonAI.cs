@@ -8,8 +8,11 @@ public class DragonAI: BaseAI
     public Transform flyPositionRight;
     public Health health;
     public GameUI gameUI;
+    public GameObject fireballPrefab;
 
-    private const float flameSpeed = 1000;
+    [Header("Sounds")]
+    public AudioSource fireballCreation;
+    public AudioSource dragonRoar;
 
     private DragonFlyState flyState;
     private DragonLandState landState;
@@ -53,33 +56,39 @@ public class DragonAI: BaseAI
 
         var fireballModel = new FireballModel
         {
+            prefab = fireballPrefab,
             ownerTag = Tags.ENEMY,
             hitTag = Tags.PLAYER,
             originPosition = flameOriginPosition.position,
             direction = fireballDirection,
-            damage = 1,
-            speed = flameSpeed
+            damage = 1
         };
 
         FireballController.CreateFireball(fireballModel);
+        fireballCreation.PlayOneShot(fireballCreation.clip, 0.75f);
     }
 
     public void WakeUp()
     {
         animator.SetBool("Awake", true);
-        Invoke("EnableHealthComponent", 3);
+        Invoke("StartDragonBattle", 3);
+        dragonRoar.Play();
     }
 
-    public void EnableHealthComponent()
+    public void StartDragonBattle()
     {
         health.enabled = true;
         SetupMovementBehaviour();
+        audioController.PlayDragonBattleMusic();
     }
 
     public override void DeathAnimation()
     {
         controlDelay = 3;
         animator.SetTrigger("Dead");
+        dragonRoar.pitch = 1.5f;
+        dragonRoar.Play();
+        audioController.LowerBattleMusic(1.2f);
     }
 
     public void ShowVictoryPanel()

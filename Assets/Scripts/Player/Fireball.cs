@@ -4,7 +4,6 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
     public FireballModel model;
-    [HideInInspector] public Vector3 direction;
     private const float speed = 20f;
 
     private const float lifetime = 6f;
@@ -16,12 +15,12 @@ public class Fireball : MonoBehaviour
 
     void Update()
     {
-        transform.position += direction * (Time.deltaTime * speed);
+        transform.position += model.direction * (Time.deltaTime * speed);
     }
 
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("OnCollisionEnter: " + other.gameObject.tag);
+        // Debug.Log("Fireball OnCollisionEnter: " + other.gameObject.tag);
         FireballController.FireballCollision(this, other);
     }
 

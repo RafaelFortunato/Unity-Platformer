@@ -4,6 +4,7 @@ using UnityEngine;
 public class HeartItem : MonoBehaviour
 {
     public int recoveryAmount;
+    public AudioController audioController;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,6 +16,7 @@ public class HeartItem : MonoBehaviour
 
             healthComponent.CurrentHealth = Math.Min(healthComponent.CurrentHealth + recoveryAmount, healthComponent.MaxHealth);
 
+            audioController.PlayItemCollected();
             Destroy(gameObject);
         }
     }

@@ -8,6 +8,7 @@ public class AttackStateModel
     public float delay;
     public int damage;
     public UnityEvent onAttackStrike;
+    public AudioSource attackSound;
 }
 
 public class BaseAttackState : IState
@@ -25,11 +26,13 @@ public class BaseAttackState : IState
     {
         baseAI.controlDelay = model.delay;
         baseAI.animator.SetTrigger("Attack");
+        model.attackSound?.Play();
     }
 
     public void OnEnter()
     {
         model.onAttackStrike.AddListener(ApplyDamageToArea);
+        baseAI.animator.SetBool("Walking", false);
     }
 
     public void OnExit()
@@ -40,7 +43,7 @@ public class BaseAttackState : IState
     private void ApplyDamageToArea()
     {
         Collider[] colliders = Physics.OverlapSphere(model.transform.position, model.range);
-        Debug.Log("Colliders count " + colliders.Length);
+        // Debug.Log("Colliders count " + colliders.Length);
         foreach (var collider in colliders)
         {
             if (collider.gameObject.CompareTag("Player"))

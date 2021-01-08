@@ -38,7 +38,7 @@ ModelImporter:
       name: mixamo.com
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
+      firstFrame: 5.5
       lastFrame: 28
       wrapMode: 0
       orientationOffsetY: 0
@@ -59,7 +59,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.18867925
+      - time: 0
         functionName: FireballAction
         data: 
         objectReferenceParameter: {instanceID: 0}

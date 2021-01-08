@@ -5,6 +5,7 @@ public class DragonBattleTrigger : MonoBehaviour
     public GameObject dragonBattleBarrier;
     public DragonAI dragon;
     public PlayerController player;
+    public AudioController audioController;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,6 +14,7 @@ public class DragonBattleTrigger : MonoBehaviour
             dragonBattleBarrier.SetActive(true);
             player.PausePlayer(3);
             dragon.WakeUp();
+            audioController.FadeOutLevelMusic();
             gameObject.SetActive(false);
         }
     }

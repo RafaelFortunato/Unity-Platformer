@@ -41,9 +41,10 @@ public class GameUI : MonoBehaviour
 
     private void UpdateTimerLabel(TextMeshProUGUI label)
     {
-        var minutes = time / 60;
-        var seconds = time % 60;
-        var fraction = (time * 100) % 100;
+        Debug.Log(time);
+        var minutes =  Mathf.FloorToInt(time / 60);
+        var seconds = Mathf.FloorToInt(time % 60);
+        var fraction = time * 100 % 100;
 
         label.text = $"{minutes:00} : {seconds:00} : {fraction:000}";
     }

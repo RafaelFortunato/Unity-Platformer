@@ -27,6 +27,7 @@ public class ChasePlayerState : IState
 
     public void OnEnter()
     {
+        baseAI.animator.SetBool("Walking", true);
     }
 
     public void OnExit()

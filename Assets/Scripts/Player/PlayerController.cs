@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public Transform SwordAttackPosition;
 
     [Header("Fire Ball")]
+    public GameObject fireballPrefab;
     public float MagicAttackDelay;
 
     [Header("Jump")]
@@ -19,25 +20,35 @@ public class PlayerController : MonoBehaviour
     public float gravityScale;
     public float jumpPressTime;
 
+    [Header("GroundCheck")]
+    public Transform groundBelowCheck;
+    public LayerMask GroundLayer;
+
     [Header("Other")]
     public float WalkSpeed;
     public Animator anim;
     public LayerMask EnemyLayers;
-    public LayerMask GroundLayer;
     public GameUI gameUI;
+
+    [Header("Sounds")]
+    public AudioController audioController;
+    public AudioSource swordA;
+    public AudioSource swordB;
+    public AudioSource fireballCreation;
+    public AudioSource jumpLand;
 
     private Rigidbody rigidbody;
     private bool isJumping;
-    private float jumpTimeCounter;
+    private float longJumpTimeCounter;
     private float controlDelay;
+    private float moveX;
+    private bool isGrounded;
 
-    Transform groundBelowCheck;
     const float groundCheckRadius = .2f;
 
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        groundBelowCheck = transform.Find("GroundCheck");
     }
 
     void Update()
@@ -62,6 +73,23 @@ public class PlayerController : MonoBehaviour
         InputMagicAttack();
     }
 
+    private void FixedUpdate()
+    {
+        ApplyGravity();
+
+        if (!CanMove())
+        {
+            if (!IsGrounded())
+            {
+                ApplyMovement();
+            }
+
+            return;
+        }
+
+        ApplyMovement();
+    }
+
     private void InputMagicAttack()
     {
         if (Input.GetKeyDown(KeyCode.G))
@@ -75,15 +103,16 @@ public class PlayerController : MonoBehaviour
     {
         var fireballModel = new FireballModel
         {
+            prefab = fireballPrefab,
             ownerTag = Tags.PLAYER,
             hitTag = Tags.ENEMY,
             originPosition = SwordAttackPosition.position,
             direction = transform.right,
-            damage = 1,
-            speed = 1000f
+            damage = 1
         };
 
         FireballController.CreateFireball(fireballModel);
+        fireballCreation.Play();
     }
 
     private bool CanMove()
@@ -93,25 +122,7 @@ public class PlayerController : MonoBehaviour
 
     private void InputMovement()
     {
-        float x = Input.GetAxis("Horizontal");
-
-        if (transform.parent == null)
-        {
-            rigidbody.MovePosition(rigidbody.position + new Vector3(x * WalkSpeed * Time.deltaTime, 0, 0));
-        }
-        else
-        {
-            // Move position doesnt work when the gameobject is child of another rigidbody
-            // https://forum.unity.com/threads/child-rigidbody-doesnt-act-normally-when-parent-rigidbody-moves.564991/
-            transform.position += new Vector3(x * WalkSpeed * Time.deltaTime, 0, 0);
-        }
-
-        if (x != 0)
-        {
-            transform.rotation = new Quaternion(0, x < 0 ? 180 : 0, 0, 0);
-        }
-
-        anim.SetFloat("Speed", Math.Abs(x));
+        moveX = Input.GetAxis("Horizontal");
     }
 
     void InputJump()
@@ -119,16 +130,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             isJumping = true;
-            jumpTimeCounter = jumpPressTime;
+            longJumpTimeCounter = jumpPressTime;
             rigidbody.velocity = Vector3.up * JumpHeight;
         }
 
         if (Input.GetKey(KeyCode.Space) && isJumping)
         {
-            if (jumpTimeCounter > 0)
+            if (longJumpTimeCounter > 0)
             {
                 rigidbody.velocity = Vector2.up * JumpHeight;
-                jumpTimeCounter -= Time.deltaTime;
+                longJumpTimeCounter -= Time.deltaTime;
             }
             else
             {
@@ -150,13 +161,14 @@ public class PlayerController : MonoBehaviour
         {
             controlDelay = SwordAttackDelay;
             anim.SetTrigger("Attack");
+            (Random.Range(0, 2) == 0 ? swordA : swordB).Play();
         }
     }
 
     public void AttackAction()
     {
         Collider[] colliders = Physics.OverlapSphere(SwordAttackPosition.position, SwordAttackRange, EnemyLayers);
-        Debug.Log("Colliders count " + colliders.Length);
+        // Debug.Log("Colliders count " + colliders.Length);
         foreach (var enemyCollider in colliders)
         {
             DamageController.ApplyDamage(enemyCollider.gameObject, swordAttackDamage);
@@ -169,15 +181,31 @@ public class PlayerController : MonoBehaviour
         foreach (var c in colliders)
         {
             if (c.gameObject != gameObject)
+            {
+                if (!isGrounded)
+                {
+                    jumpLand.Play();
+                }
+
+                isGrounded = true;
                 return true;
+            }
         }
 
+        isGrounded = false;
         return false;
     }
 
-    private void FixedUpdate()
+    private void ApplyMovement()
     {
-        ApplyGravity();
+        transform.position += new Vector3(moveX * WalkSpeed * Time.deltaTime, 0, 0);
+
+        if (moveX != 0)
+        {
+            transform.rotation = new Quaternion(0, moveX < 0 ? 180 : 0, 0, 0);
+        }
+
+        anim.SetFloat("Speed", Mathf.Abs(moveX));
     }
 
     private void ApplyGravity()
@@ -192,6 +220,7 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Dead");
 
         Invoke("ShowGameOverPanel", 3);
+        audioController.LowerBattleMusic(0.6f);
     }
 
     private void ShowGameOverPanel()
