@@ -4,17 +4,22 @@
 - Post processing 
 - 3D model and animations
 
+![](/Screenshot.png)
+
 Playable at:
 https://simmer.io/@rafaelpaz/platformer
 
-![](/Screenshot.png)
+Gameplay Video:
+https://www.youtube.com/watch?v=WSqjdEb_WOY
 
 Asset Store Packages:
+
 https://assetstore.unity.com/packages/3d/environments/landscapes/p-w-temple-edition-33637
 https://assetstore.unity.com/packages/3d/characters/creatures/dungeon-skeletons-demo-71087
 https://assetstore.unity.com/packages/3d/props/weapons/magic-swords-97694
 https://assetstore.unity.com/packages/3d/characters/creatures/four-evil-dragons-pack-hp-79398
 https://assetstore.unity.com/packages/vfx/particles/fire-explosions/procedural-fire-141496
 https://assetstore.unity.com/packages/3d/characters/creatures/meshtint-free-polygonal-metalon-151383
+https://assetstore.unity.com/packages/audio/music/battle-music-album-060418-120345
 
 
